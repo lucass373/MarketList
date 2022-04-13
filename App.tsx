@@ -7,14 +7,14 @@ import Navigation from './navigation';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
+  /*const colorScheme = useColorScheme();*/
 
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
       <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
+        <Navigation /*colorScheme={colorScheme}*/ />
         <StatusBar />
       </SafeAreaProvider>
     );

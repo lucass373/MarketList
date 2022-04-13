@@ -22,11 +22,11 @@ import TabThreeScreen from '../screens/TabThreeScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 /*import LinkingConfiguration from './LinkingConfiguration';*/
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation(/*{ colorScheme } : {colorScheme : ColorSchemeName}*/) {
   return (  
     <NavigationContainer
       /*linking={LinkingConfiguration}*/
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+     /* theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}*/>
       <RootNavigator />
     </NavigationContainer>
   );
@@ -36,17 +36,17 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
  * A root stack navigator is often used for displaying modals on top of all other content.
  * https://reactnavigation.org/docs/modal
  */
-const Stack = createNativeStackNavigator<RootStackParamList>();
+ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
     <Stack.Navigator>  
-      <Stack.Screen name="LoginScreen" component={LoginScreen}/>
-      <Stack.Screen name="RegisterScreen" component={RegisterScreen}/>
+      <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown:false ,}} />
+      <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown:false ,}} />
       <Stack.Screen name="Bottom" component={BottomTabNavigator} options={{ headerShown:false ,}} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
+      <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -59,7 +59,7 @@ function RootNavigator() {
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator({route}: RootTabScreenProps<'TabOne'>){
-  const {text} = route.params
+  const {text} : any   = route.params 
   const colorScheme = useColorScheme();
   return (
     <BottomTab.Navigator
@@ -72,6 +72,7 @@ function BottomTabNavigator({route}: RootTabScreenProps<'TabOne'>){
         initialParams={{text}}
         component={TabOneScreen}
         options={({}: RootTabScreenProps<'TabOne'>) => ({
+          headerShown : false,
           title: 'Home',
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         })}
@@ -80,6 +81,7 @@ function BottomTabNavigator({route}: RootTabScreenProps<'TabOne'>){
         name="TabTwo"
         component={TabTwoScreen}
         options={{
+          headerShown : false,
           title: 'User',
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
@@ -88,10 +90,11 @@ function BottomTabNavigator({route}: RootTabScreenProps<'TabOne'>){
         name="TabThree"
         initialParams={{text}}
         component={TabThreeScreen}
-          options={({}:RootTabScreenProps<'TabThree'>) => ({
-            title: 'Market List',
-            tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
-          })}
+        options={({}: RootTabScreenProps<'TabThree'>) => ({
+        title: 'Market List',
+        tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color}/>,
+        headerShown:false,
+        })}
       />
     </BottomTab.Navigator>
   );
@@ -100,7 +103,7 @@ function BottomTabNavigator({route}: RootTabScreenProps<'TabOne'>){
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
-function TabBarIcon(props: {
+ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {

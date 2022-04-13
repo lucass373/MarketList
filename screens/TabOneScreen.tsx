@@ -2,25 +2,28 @@ import { child, Database, get, getDatabase, limitToFirst, onValue, ref, update,}
 import { useEffect, useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { Text, View } from 'react-native';
-import { initFire } from '../firebase/firebase';
+import { db } from '../firebase/firebase';
 import Navigation from '../navigation';
 import { RootTabScreenProps } from '../types';
 
 export default function TabOneScreen({navigation,route}: RootTabScreenProps<'TabOne'>) {
 
   
-  const {text} = route.params;
+  const {text} : any  = route.params;
   
   return (
    <View style={styles.container}>
-     <Text style={styles.title}>{text}</Text>
+     <View style={{backgroundColor:'gray', width:50, height: 50 , borderRadius: 30}}>
+
+     </View>
+     <Text style={styles.title}>Olá, {text}</Text>
    </View>
   );
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
+    container: {
+    //flex: 1,
+    //alignItems: 'center',
     justifyContent: 'center',
   },
   title: {

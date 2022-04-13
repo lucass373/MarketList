@@ -1,109 +1,162 @@
 import React, { useEffect, useState } from 'react';
-import {View, Text, StyleSheet, SafeAreaView, FlatList} from 'react-native'
-import { Colors, FAB } from 'react-native-paper';
-import useColorScheme from '../hooks/useColorScheme';
+import {View, Text, StyleSheet, ScrollView, FlatList} from 'react-native'
+import {FAB} from 'react-native-paper';
 import { TextInput } from 'react-native-paper';
-import { getDatabase, ref, push, set, onValue } from "firebase/database";
-import { initFire } from '../firebase/firebase';
-import { Item, VirtualHeader } from 'ionic-angular';
-import { NavigationHelpersContext } from '@react-navigation/native';
-import Navigation from '../navigation';
+import { ref, push, set, onValue, child, update, remove } from "firebase/database";
+import { CheckBox } from 'react-native-elements'
+import {db} from '../firebase/firebase';
+import { Entypo } from '@expo/vector-icons';
 
 
-export default function TabThreeScreen({navigation, route}){
+export default function TabThreeScreen({}){
 
-const [List , setList] = useState('')
-const [Preco, setPreco] = useState('')
-const [itemsArray, setItemsArray] = React.useState([]);
-const db = getDatabase();
-const postItemRef = ref(db,'Market List');
-const newItemRef = push(postItemRef);
-
+const [List , setList]  = useState('');
+const [Quant , setQuant] = useState('');
+const [items , setItems] = React.useState([]);
+ //read
+useEffect(() => {
+  onValue(ref(db, 'Market List/'),  (snapshot) => {
+    setItems([]);
+    const data = snapshot.val();
+          if (data !== null) {
+            Object.values(data).map((items) => {
+        setItems((oldArray) => [...oldArray, items]);
+      });
+    }
+  });
+},[]);
+  //write
+  const onPress = () => {
+    const newPostKey = push(child(ref(db), 'Market List')).key;
+    set(ref(db, `Market List/${newPostKey}`), {
+      item: List,
+      quantidade: Quant,
+      checked: false,
+      uuid : newPostKey,
+    });
+    setList("");
+    setQuant('');
+  };
+   //update
+  
+  const changeCheck =(id : string,checked : boolean)=>{
+      update(ref(db, 'Market List/' + id), {      
+      checked : checked,
+      uuid: id,
+    });
+   setList("");
+   setQuant('')
+  };
+const remover = (id : string) =>{
+  remove(ref(db, 'Market List/' + id),);
+}
+/*Funções antigas
 const onPress= () => {
   set(newItemRef, {
       Item : List,
-      Preco : Preco
+      Preco : Preco,
+      checked : false,
   });}
-
-React.useEffect(()=>{
-  onValue(postItemRef, (snapshot) => {
-    
+const edit = (items) =>{
+   setChecked(!items)
+   const updates = {};
+   updates[`/Market List/${postKey}/checked`] = checked;
+   return update(ref(db),updates);
+}
+*/
+/*useEffect(()=>{
+  onValue(ref(db, 'Market List/' + uuid), (snapshot) => {
       let data = snapshot.val();
       const items = Object.values(data);
       setItemsArray(items);
     });
-  },[]);
-
+  },[]);*/
+             
   function ItemComponent ({items}) {
     return (
       <View style={styles.container}>
-        {items.map((item, index) => {
+        {items.map((items : any,index : string) => {
           return (
-            <View key={index}>
-              <Text style={styles.title}>{item.Item}|{item.Preco}</Text>
+            
+            <View key={index} style={styles.item}>
+              <CheckBox
+              checkedColor='green'
+              checked={items.checked}
+               onPress={()=>changeCheck(items.uuid,!items.checked)}
+              />
+              <Text style={styles.title}>{items.item} ||| {items.quantidade}</Text>
+              <Entypo.Button
+              name="trash"
+              color={'red'}
+              backgroundColor={''}
+              underlayColor={''}
+              onPress={()=>remover(items.uuid)}
+              />
+
             </View>
+            
           );
-        })}
+        })}        
       </View>
     );
- }
-
-    return(
-      
-        <View style={styles.container}>
-        <View style={styles.inpCont}>
-          <TextInput
-          label="Item"
-          style={styles.Input1}
-          mode = 'outlined'
-          placeholder='Ex. "Arroz"'
-          onChangeText={(List)=> setList(List)}
-          value={List}
-          />
-          <TextInput
-          label="Price"
-          style={styles.Input2}
-          mode = 'outlined'
-          placeholder='Ex. 5.00'
-          onChangeText={(Preco)=> setPreco(Preco)}
-          value={Preco}
-          />
-        </View>
-
-
-          <View style={styles.line}></View>
+      }
+return(  
+<View style={styles.container}>
+  <View style={styles.inpCont}>
+    <TextInput
+      maxLength={20}
+      label="Item"
+      style={styles.Input1}
+      mode = 'outlined'
+      placeholder='Ex. "Arroz"'
+      onChangeText={(List)=> setList(List)}
+      value={List}
+    />
+     <TextInput
+      maxLength={3}
+      keyboardType="numeric"
+      label="Quantidade"
+      style={styles.Input2}
+      mode = 'outlined'
+      placeholder='Ex. "10"'
+      onChangeText={(Quant)=> setQuant(Quant)}
+      value={Quant}
+    />
+  </View>
 
 
-          <Text style={styles.title }>List</Text>
-          <View style={styles.inpCont}>
-      {itemsArray.length > 0 ? (
-        <ItemComponent items={itemsArray} />
+<View style={styles.line}></View>
+  <Text style={styles.title }>List</Text>
+  <ScrollView style={styles.itemView}>
+  {items.length > 0 ? (
+        <ItemComponent items={items} />
       ) : (
-        <Text>No items</Text>
-)}
-    </View>
-              <FAB            
+        <Text style={styles.title}>No items</Text>)}
+</ScrollView>
+<View style={{borderTopColor:'#612F74',borderTopWidth:2,width:'100%',height: 60}}><Text style={styles.title}>Total de itens:  {items.length}</Text></View>
+<FAB            
                 style={styles.fab}
-                 medium
-                 icon="pencil"
-                  onPress={onPress}
-  />
-  
-        </View>
+                icon="pencil"
+                onPress={onPress}
+              />
+</View>
     )
 }
+
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      flexWrap: 'wrap',
-      flexDirection :'row',
-      justifyContent: 'space-between',
-    },
-    title: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: '#612F74',
-      marginLeft: '50%',
+  container: {
+  marginTop: 20,
+  flex: 1,
+  flexWrap: 'wrap',
+  //alignItems: 'center',
+  alignContent: 'center',
+  alignItems:'center',
+},
+title: {
+  fontSize: 16,
+  fontWeight: 'bold',
+  color: '#612F74',
+  textAlign: 'center',
     },
     separator: {
       marginVertical: 30,
@@ -119,12 +172,10 @@ const styles = StyleSheet.create({
       backgroundColor:'#612F74',
     },
     Input1:{
-      width: '59%',
-      marginLeft: 2, 
+      width: '68%',
   },
   Input2:{
-    width: '39%',
-    marginRight: 2,
+    width: '30%',
   },
   line:{
    marginTop: 10,
@@ -133,11 +184,29 @@ const styles = StyleSheet.create({
    backgroundColor: '#612F74'
   },
   inpCont:{
-    width: '100%',
-    flexWrap: 'wrap',
-    flexDirection:'row',
+    flexDirection:"row",
     justifyContent: 'space-between',
+    alignContent: 'center',
+    width: '95%'
+  },
+  itemView:{
+    flex: 1,
+    alignContent: 'center',
+    width: '100%',
+    marginTop: 10,
+    marginBottom: 50
+  },
+  item:{
+    borderColor: '#612F74',
+    borderWidth: 2,
+    width: '98%',
+    alignItems: 'center',
+    marginTop: 3,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    borderRadius: 15,
+    justifyContent:'space-between'
+
   }
-  }
-  );
-  
+}
+)

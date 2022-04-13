@@ -3,14 +3,13 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, View, TextInput} from 'react-native';
 import { RootTabScreenProps } from '../types';
 import { child, get, getDatabase, onValue, ref, set } from "firebase/database";
-import { initFire } from '../firebase/firebase';
 export default function LoginScreen({ navigation }: RootTabScreenProps<'LoginScreen'>) {
   
   
-  const [text, setText] = useState('')
-  
+const [text, setText] = useState('')
+
 const onPress = () => {
-const dbRef = ref(getDatabase(initFire))
+const dbRef = ref(getDatabase())
 get(child(dbRef, `users/${text}`)).then((snapshot) => {
   if (snapshot.exists()) {
     navigation.navigate('Bottom', {

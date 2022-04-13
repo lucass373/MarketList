@@ -3,14 +3,13 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, View, TextInput} from 'react-native';
 import { RootTabScreenProps } from '../types';
 import { getDatabase, set, ref, remove, off, push } from 'firebase/database';
-import { initFire } from '../firebase/firebase';
+import { db } from '../firebase/firebase';
 
 export default function RegisterScreen({ navigation }: RootTabScreenProps<'RegisterScreen'>) {
   
   const [text, setText] = React.useState('')
 
   const onPress = () => {
-  const db = getDatabase(initFire);
   const usrListRef = ref(db, 'users/' + 'usuarios')
   set(ref(db, 'users/' + text), {
    username : text,
