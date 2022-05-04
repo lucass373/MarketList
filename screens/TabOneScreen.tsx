@@ -1,11 +1,7 @@
-import { child, Database, get, getDatabase, limitToFirst, onValue, ref, update,} from 'firebase/database';
-import { useEffect, useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { Text, View } from 'react-native';
-import { db } from '../firebase/firebase';
-import Navigation from '../navigation';
 import { RootTabScreenProps } from '../types';
-
+import { FontAwesome } from '@expo/vector-icons';
 export default function TabOneScreen({navigation,route}: RootTabScreenProps<'TabOne'>) {
 
   
@@ -13,8 +9,8 @@ export default function TabOneScreen({navigation,route}: RootTabScreenProps<'Tab
   
   return (
    <View style={styles.container}>
-     <View style={{backgroundColor:'gray', width:50, height: 50 , borderRadius: 30}}>
-
+     <View style={{alignItems:'center',justifyContent: 'center',backgroundColor:'gray', width:50, height: 50 , borderRadius: 30}}>
+     <FontAwesome name="user" size={40} color="#612F74" />
      </View>
      <Text style={styles.title}>Olá, {text}</Text>
    </View>
@@ -25,10 +21,12 @@ const styles = StyleSheet.create({
     //flex: 1,
     //alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row'
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: '#612F74'
   },
   separator: {
     marginVertical: 30,

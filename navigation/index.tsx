@@ -13,8 +13,6 @@ import { ColorSchemeName, Pressable } from 'react-native';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import LoginScreen from '../screens/LoginScreen';
-import ModalScreen from '../screens/ModalScreen';
-import NotFoundScreen from '../screens/NotFoundScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
@@ -44,9 +42,7 @@ function RootNavigator() {
       <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown:false ,}} />
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown:false ,}} />
       <Stack.Screen name="Bottom" component={BottomTabNavigator} options={{ headerShown:false ,}} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-      <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );

@@ -1,56 +1,96 @@
-import React, { useEffect, useState } from 'react';
-import {View, Text, StyleSheet, ScrollView, FlatList} from 'react-native'
-import {FAB} from 'react-native-paper';
-import { TextInput } from 'react-native-paper';
-import { ref, push, set, onValue, child, update, remove } from "firebase/database";
+import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native'
+import { FAB } from 'react-native-paper'
+import { TextInput } from 'react-native-paper'
+import {
+  ref,
+  push,
+  set,
+  onValue,
+  child,
+  update,
+  remove,
+} from 'firebase/database'
 import { CheckBox } from 'react-native-elements'
-import {db} from '../firebase/firebase';
-import { Entypo } from '@expo/vector-icons';
+import { db } from '../firebase/firebase'
+import { Entypo } from '@expo/vector-icons'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { RootStackParamList, RootTabScreenProps } from '../types'
+import LimpList from './LimpList'
+import { NavigationContainer } from '@react-navigation/native'
+
+const Stack = createNativeStackNavigator<RootStackParamList>()
+
+export default function TabThreeScreen(/*{ colorScheme } : {colorScheme : ColorSchemeName}*/) {
+  return (  
+    <NavigationContainer independent={true}
+      /*linking={LinkingConfiguration}*/
+     /* theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}*/>
+      <RootNavigator />
+    </NavigationContainer>
+  );
+}
 
 
-export default function TabThreeScreen({}){
+function RootNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+      name="TabThreeScreen1"
+      component={TabThreeScreen1}
+      options={{ headerShown:false}}
+      />
+      <Stack.Screen
+      name="LimpList"
+      component={LimpList}
+      options={{ headerShown:false}}
+      />     
+    </Stack.Navigator>
+  )
+}
 
-const [List , setList]  = useState('');
-const [Quant , setQuant] = useState('');
-const [items , setItems] = React.useState([]);
- //read
-useEffect(() => {
-  onValue(ref(db, 'Market List/'),  (snapshot) => {
-    setItems([]);
-    const data = snapshot.val();
-          if (data !== null) {
-            Object.values(data).map((items) => {
-        setItems((oldArray) => [...oldArray, items]);
-      });
-    }
-  });
-},[]);
+function TabThreeScreen1({ navigation }: RootTabScreenProps<'TabThreeScreen1'>) {
+  const [List, setList] = useState('')
+  const [Quant, setQuant] = useState('')
+  const [items, setItems] = React.useState([])
+  //read
+  useEffect(() => {
+    onValue(ref(db, 'Market List/alimento'), (snapshot) => {
+      setItems([])
+      const data = snapshot.val()
+      if (data !== null) {
+        Object.values(data).map((items) => {
+          setItems((oldArray) => [...oldArray, items])
+        })
+      }
+    })
+  }, [])
   //write
   const onPress = () => {
-    const newPostKey = push(child(ref(db), 'Market List')).key;
-    set(ref(db, `Market List/${newPostKey}`), {
+    const newPostKey = push(child(ref(db), 'Market List/alimento')).key
+    set(ref(db, `Market List/alimento/${newPostKey}`), {
       item: List,
       quantidade: Quant,
       checked: false,
-      uuid : newPostKey,
-    });
-    setList("");
-    setQuant('');
-  };
-   //update
-  
-  const changeCheck =(id : string,checked : boolean)=>{
-      update(ref(db, 'Market List/' + id), {      
-      checked : checked,
+      uuid: newPostKey,
+    })
+    setList('')
+    setQuant('')
+  }
+  //update
+
+  const changeCheck = (id: string, checked: boolean) => {
+    update(ref(db, 'Market List/alimento/' + id), {
+      checked: checked,
       uuid: id,
-    });
-   setList("");
-   setQuant('')
-  };
-const remover = (id : string) =>{
-  remove(ref(db, 'Market List/' + id),);
-}
-/*Funções antigas
+    })
+    setList('')
+    setQuant('')
+  }
+  const remover = (id: string) => {
+    remove(ref(db, 'Market List/alimento/' + id))
+  }
+  /*Funções antigas
 const onPress= () => {
   set(newItemRef, {
       Item : List,
@@ -64,139 +104,156 @@ const edit = (items) =>{
    return update(ref(db),updates);
 }
 */
-/*useEffect(()=>{
+  /*useEffect(()=>{
   onValue(ref(db, 'Market List/' + uuid), (snapshot) => {
       let data = snapshot.val();
       const items = Object.values(data);
       setItemsArray(items);
     });
   },[]);*/
-             
-  function ItemComponent ({items}) {
+
+  function ItemComponent({ items }) {
     return (
       <View style={styles.container}>
-        {items.map((items : any,index : string) => {
+        {items.map((items: any, index: string) => {
           return (
-            
             <View key={index} style={styles.item}>
               <CheckBox
-              checkedColor='green'
-              checked={items.checked}
-               onPress={()=>changeCheck(items.uuid,!items.checked)}
+                checkedColor="green"
+                checked={items.checked}
+                onPress={() => changeCheck(items.uuid, !items.checked)}
               />
-              <Text style={styles.title}>{items.item} ||| {items.quantidade}</Text>
+              <Text style={styles.title}>
+                {items.item} ||| {items.quantidade}
+              </Text>
               <Entypo.Button
-              name="trash"
-              color={'red'}
-              backgroundColor={''}
-              underlayColor={''}
-              onPress={()=>remover(items.uuid)}
+                name="trash"
+                color={'red'}
+                backgroundColor={''}
+                underlayColor={''}
+                onPress={() => remover(items.uuid)}
               />
-
             </View>
-            
-          );
-        })}        
+          )
+        })}
       </View>
-    );
-      }
-return(  
-<View style={styles.container}>
-  <View style={styles.inpCont}>
-    <TextInput
-      maxLength={20}
-      label="Item"
-      style={styles.Input1}
-      mode = 'outlined'
-      placeholder='Ex. "Arroz"'
-      onChangeText={(List)=> setList(List)}
-      value={List}
-    />
-     <TextInput
-      maxLength={3}
-      keyboardType="numeric"
-      label="Quantidade"
-      style={styles.Input2}
-      mode = 'outlined'
-      placeholder='Ex. "10"'
-      onChangeText={(Quant)=> setQuant(Quant)}
-      value={Quant}
-    />
-  </View>
-
-
-<View style={styles.line}></View>
-  <Text style={styles.title }>List</Text>
-  <ScrollView style={styles.itemView}>
-  {items.length > 0 ? (
-        <ItemComponent items={items} />
-      ) : (
-        <Text style={styles.title}>No items</Text>)}
-</ScrollView>
-<View style={{borderTopColor:'#612F74',borderTopWidth:2,width:'100%',height: 60}}><Text style={styles.title}>Total de itens:  {items.length}</Text></View>
-<FAB            
-                style={styles.fab}
-                icon="pencil"
-                onPress={onPress}
-              />
-</View>
     )
+  }
+  return (
+    <View style={styles.container}>
+      <View style={styles.inpCont}>
+        <TextInput
+          maxLength={20}
+          label="Item"
+          style={styles.Input1}
+          mode="outlined"
+          placeholder='Ex. "Arroz"'
+          onChangeText={(List) => setList(List)}
+          value={List}
+        />
+        <TextInput
+          maxLength={3}
+          keyboardType="numeric"
+          label="Quantidade"
+          style={styles.Input2}
+          mode="outlined"
+          placeholder='Ex. "10"'
+          onChangeText={(Quant) => setQuant(Quant)}
+          value={Quant}
+        />
+      </View>
+
+      <View style={styles.line}></View>
+      <Text style={styles.title}>Lista Alimentos</Text>
+      <ScrollView style={styles.itemView}>
+        {items.length > 0 ? (
+          <ItemComponent items={items} />
+        ) : (
+          <Text style={styles.title}>No items</Text>
+        )}
+      </ScrollView>
+      <View
+        style={{
+          borderTopColor: '#612F74',
+          borderTopWidth: 2,
+          width: '100%',
+          height: 60,
+        }}
+      >
+        <Text style={styles.title}>Total de itens: {items.length}</Text>
+      </View>
+      <FAB style={styles.fab} icon="pencil" onPress={onPress} />
+      <FAB
+        style={styles.fab2}
+        icon="spray-bottle"
+        onPress={()=>navigation.navigate('LimpList')}
+      />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-  marginTop: 20,
-  flex: 1,
-  flexWrap: 'wrap',
-  //alignItems: 'center',
-  alignContent: 'center',
-  alignItems:'center',
-},
-title: {
-  fontSize: 16,
-  fontWeight: 'bold',
-  color: '#612F74',
-  textAlign: 'center',
-    },
-    separator: {
-      marginVertical: 30,
-      height: 1,
-      width: '80%',
-    },
-    fab:{
-      position: 'absolute',
-      margin: 16,
-      right: 0,
-      bottom: 0,
-      color: 'blue',
-      backgroundColor:'#612F74',
-    },
-    Input1:{
-      width: '68%',
+    marginTop: 20,
+    flex: 1,
+    flexWrap: 'wrap',
+    //alignItems: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
   },
-  Input2:{
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#612F74',
+    textAlign: 'center',
+  },
+  separator: {
+    marginVertical: 30,
+    height: 1,
+    width: '80%',
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    color: 'blue',
+    backgroundColor: '#612F74',
+  },
+  fab2: {
+    position: 'absolute',
+    margin: 16,
+    left: 0,
+    bottom: 0,
+    color: 'blue',
+    backgroundColor: '#612F74',
+  },
+  Input1: {
+    width: '68%',
+  },
+  Input2: {
     width: '30%',
   },
-  line:{
-   marginTop: 10,
-   width: '100%',
-   height: 3,
-   backgroundColor: '#612F74'
+  line: {
+    marginTop: 10,
+    width: '100%',
+    height: 3,
+    backgroundColor: '#612F74',
   },
-  inpCont:{
-    flexDirection:"row",
+  inpCont: {
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignContent: 'center',
-    width: '95%'
+    width: '95%',
   },
-  itemView:{
+  itemView: {
     flex: 1,
     alignContent: 'center',
     width: '100%',
     marginTop: 10,
-    marginBottom: 50
+    marginBottom: 50,
   },
-  item:{
+  item: {
     borderColor: '#612F74',
     borderWidth: 2,
     width: '98%',
@@ -205,8 +262,6 @@ title: {
     flexWrap: 'wrap',
     flexDirection: 'row',
     borderRadius: 15,
-    justifyContent:'space-between'
-
-  }
-}
-)
+    justifyContent: 'space-between',
+  },
+})

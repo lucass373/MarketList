@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, View, TextInput} from 'react-native';
 import { RootTabScreenProps } from '../types';
 import { child, get, getDatabase, onValue, ref, set } from "firebase/database";
+
 export default function LoginScreen({ navigation }: RootTabScreenProps<'LoginScreen'>) {
   
   
