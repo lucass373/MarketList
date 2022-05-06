@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\lucas.oliveira\.node\corepack\yarn\1.22.15\bin\yarn.js add @react-nativweyarn add @react-native-firebase/database
+  C:\Program Files\nodejs\node.exe C:\Users\lucas.oliveira\.node\corepack\yarn\1.22.15\bin\yarn.js add react-native-community
 
 PATH: 
   C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\dotnet\;C:\Users\lucas.oliveira\AppData\Local\Microsoft\WindowsApps;;C:\Users\lucas.oliveira\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\lucas.oliveira\AppData\Roaming\npm
@@ -14,8 +14,8 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@react-nativweyarn: Request "https://registry.yarnpkg.com/@react-nativweyarn" returned a 405
-      at Request.params.callback [as _callback] (C:\Users\lucas.oliveira\.node\corepack\yarn\1.22.15\lib\cli.js:66149:18)
+  Error: https://registry.yarnpkg.com/react-native-community: Not found
+      at Request.params.callback [as _callback] (C:\Users\lucas.oliveira\.node\corepack\yarn\1.22.15\lib\cli.js:66140:18)
       at Request.self.callback (C:\Users\lucas.oliveira\.node\corepack\yarn\1.22.15\lib\cli.js:140885:22)
       at Request.emit (node:events:390:28)
       at Request.<anonymous> (C:\Users\lucas.oliveira\.node\corepack\yarn\1.22.15\lib\cli.js:141857:10)
@@ -44,6 +44,9 @@ npm manifest:
     },
     "dependencies": {
       "@expo/vector-icons": "^12.0.0",
+      "@react-native-community/checkbox": "^0.5.9",
+      "@react-native-firebase/app": "^14.3.1",
+      "@react-native-firebase/database": "^14.3.1",
       "@react-navigation/bottom-tabs": "^6.0.5",
       "@react-navigation/native": "^6.0.2",
       "@react-navigation/native-stack": "^6.1.0",
@@ -60,6 +63,7 @@ npm manifest:
       "react": "17.0.1",
       "react-dom": "17.0.1",
       "react-native": "0.64.3",
+      "react-native-paper": "^4.11.2",
       "react-native-safe-area-context": "3.3.2",
       "react-native-screens": "~3.10.1",
       "react-native-web": "0.17.1"
@@ -1145,6 +1149,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
     integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
   
+  "@callstack/react-theme-provider@^3.0.7":
+    version "3.0.7"
+    resolved "https://registry.yarnpkg.com/@callstack/react-theme-provider/-/react-theme-provider-3.0.7.tgz#b7ce1a53d63ad5e83574b831ae0af6b7c6cc40e7"
+    integrity sha512-Ab6rbD2w4u9W3yf7LQQ8evx9m8fZNsoWxt+MFm3AyZnyKQNCJf4K7ip9tHHZgSs+HTdoj38lEqPehvFOVQKvAg==
+    dependencies:
+      deepmerge "^3.2.0"
+      hoist-non-react-statics "^3.3.0"
+  
   "@cnakazawa/watch@^1.0.3":
     version "1.0.4"
     resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
@@ -1153,7 +1165,7 @@ Lockfile:
       exec-sh "^0.3.2"
       minimist "^1.2.0"
   
-  "@expo/config-plugins@4.0.16", "@expo/config-plugins@^4.0.2":
+  "@expo/config-plugins@4.0.16", "@expo/config-plugins@^4.0.16", "@expo/config-plugins@^4.0.2":
     version "4.0.16"
     resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-4.0.16.tgz#832fb533245180c6dfd82fd359474f68a8e857b2"
     integrity sha512-UTyE5JTBatMSwoOZCtX0u2H3zkp/ybMftc1228ARMop35Dbq+sYO11Ym3MrY5RPh8PYPofokDSOvoUq1jjORXw==
@@ -2046,6 +2058,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
     integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
   
+  "@react-native-community/checkbox@^0.5.9":
+    version "0.5.9"
+    resolved "https://registry.yarnpkg.com/@react-native-community/checkbox/-/checkbox-0.5.9.tgz#73e1fa91b0cbb4d1eaaa75a57844435a51c22290"
+    integrity sha512-2y/MW8zwXgzRN6fApZbYov3xKkR4vyWSOPo69OWSfa5emTbtKpSl7BY9xlKgu2pzGlLg5EyE8yogp0U7vFk+sQ==
+  
   "@react-native-community/cli-debugger-ui@^5.0.1":
     version "5.0.1"
     resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-5.0.1.tgz#6b1f3367b8e5211e899983065ea2e72c1901d75f"
@@ -2169,6 +2186,20 @@ Lockfile:
       strip-ansi "^5.2.0"
       sudo-prompt "^9.0.0"
       wcwidth "^1.0.1"
+  
+  "@react-native-firebase/app@^14.3.1":
+    version "14.3.1"
+    resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-14.3.1.tgz#4b735f4378d397d22c9b9847bd2a8fffc50a9609"
+    integrity sha512-6ma2NsGXv2p3w8WXjXwuYyehVB8LYXh+4J9AE1amsocYq9T7qnktCUIxa41J5mLxp4p0+EAtwS7xGeSwgYLrmg==
+    dependencies:
+      "@expo/config-plugins" "^4.0.16"
+      opencollective-postinstall "^2.0.1"
+      superstruct "^0.6.2"
+  
+  "@react-native-firebase/database@^14.3.1":
+    version "14.3.1"
+    resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-14.3.1.tgz#192d46c16684b1d33d4f1afae79adb20f05c05d4"
+    integrity sha512-gah1RuuqiUj2r/JkylYb4TKw5r17B0w1oBZgV9DnC5MC/azBrVTQClJaH0T3Fs5nB3VdvKlQ/tSvNloLIBgOVg==
   
   "@react-native/assets@1.0.0":
     version "1.0.0"
@@ -3087,6 +3118,16 @@ Lockfile:
       strip-ansi "^6.0.0"
       wrap-ansi "^7.0.0"
   
+  clone-deep@^2.0.1:
+    version "2.0.2"
+    resolved "https://registry.yarnpkg.com/clone-deep/-/clone-deep-2.0.2.tgz#00db3a1e173656730d1188c3d6aced6d7ea97713"
+    integrity sha512-SZegPTKjCgpQH63E+eN6mVEEPdQBOUzjyJm5Pora4lrwWRFS8I0QAxV/KD6vV/i0WuijHZWQC1fMsPEdxfdVCQ==
+    dependencies:
+      for-own "^1.0.0"
+      is-plain-object "^2.0.4"
+      kind-of "^6.0.0"
+      shallow-clone "^1.0.0"
+  
   clone-deep@^4.0.1:
     version "4.0.1"
     resolved "https://registry.yarnpkg.com/clone-deep/-/clone-deep-4.0.1.tgz#c19fd9bdbbf85942b4fd979c84dcf7d5f07c2387"
@@ -3151,7 +3192,7 @@ Lockfile:
       color-name "^1.0.0"
       simple-swizzle "^0.2.2"
   
-  color@^3.1.3:
+  color@^3.1.2, color@^3.1.3:
     version "3.2.1"
     resolved "https://registry.yarnpkg.com/color/-/color-3.2.1.tgz#3544dc198caf4490c3ecc9a790b54fe9ff45e164"
     integrity sha512-aBl7dZI9ENN6fUGC7mWpMTPNHmWUSNan9tuWN6ahh5ZLNk9baLJOnSMlrQkHcrfFgz2/RigjUVAjdx36VcemKA==
@@ -4055,10 +4096,22 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/fontfaceobserver/-/fontfaceobserver-2.1.0.tgz#e2705d293e2c585a6531c2a722905657317a2991"
     integrity sha512-ReOsO2F66jUa0jmv2nlM/s1MiutJx/srhAe2+TE8dJCMi02ZZOcCTxTCQFr3Yet+uODUtnr4Mewg+tNQ+4V1Ng==
   
-  for-in@^1.0.2:
+  for-in@^0.1.3:
+    version "0.1.8"
+    resolved "https://registry.yarnpkg.com/for-in/-/for-in-0.1.8.tgz#d8773908e31256109952b1fdb9b3fa867d2775e1"
+    integrity sha1-2Hc5COMSVhCZUrH9ubP6hn0ndeE=
+  
+  for-in@^1.0.1, for-in@^1.0.2:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
     integrity sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=
+  
+  for-own@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/for-own/-/for-own-1.0.0.tgz#c63332f415cedc4b04dbfe70cf836494c53cb44b"
+    integrity sha1-xjMy9BXO3EsE2/5wz4NklMU8tEs=
+    dependencies:
+      for-in "^1.0.1"
   
   form-data@^3.0.0:
     version "3.0.1"
@@ -4292,6 +4345,13 @@ Lockfile:
     integrity sha512-cnN7bQUm65UWOy6cbGcCcZ3rpwW8Q/j4OP5aWRhEry4Z2t2aR1cjrbp0BS+KiBN0smvP1caBgAuxutvyvJILzQ==
     dependencies:
       source-map "^0.7.3"
+  
+  hoist-non-react-statics@^3.3.0:
+    version "3.3.2"
+    resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
+    integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
+    dependencies:
+      react-is "^16.7.0"
   
   hosted-git-info@^2.1.4:
     version "2.8.9"
@@ -5360,7 +5420,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-5.1.0.tgz#729c91e2d857b7a419a1f9aa65685c4c33f5845d"
     integrity sha512-NGEErnH6F2vUuXDh+OlbcKW7/wOcfdRHaZ7VWtqCztfHri/++YKmP51OdWeGPuqCOba6kk2OTe5d02VmTB80Pw==
   
-  kind-of@^6.0.0, kind-of@^6.0.2:
+  kind-of@^6.0.0, kind-of@^6.0.1, kind-of@^6.0.2:
     version "6.0.3"
     resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
     integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
@@ -5916,6 +5976,14 @@ Lockfile:
       for-in "^1.0.2"
       is-extendable "^1.0.1"
   
+  mixin-object@^2.0.1:
+    version "2.0.1"
+    resolved "https://registry.yarnpkg.com/mixin-object/-/mixin-object-2.0.1.tgz#4fb949441dab182540f1fe035ba60e1947a5e57e"
+    integrity sha1-T7lJRB2rGCVA8f4DW6YOGUel5X4=
+    dependencies:
+      for-in "^0.1.3"
+      is-extendable "^0.1.1"
+  
   mkdirp@^0.5.1:
     version "0.5.5"
     resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.5.tgz#d91cefd62d1436ca0f41620e251288d420099def"
@@ -6195,6 +6263,11 @@ Lockfile:
     integrity sha512-IFenVPgF70fSm1keSd2iDBIDIBZkroLeuffXq+wKTzTJlBpesFWojV9lb8mzOfaAzM1sr7HQHuO0vtV0zYekGg==
     dependencies:
       is-wsl "^1.1.0"
+  
+  opencollective-postinstall@^2.0.1:
+    version "2.0.3"
+    resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.3.tgz#7a0fff978f6dbfa4d006238fbac98ed4198c3259"
+    integrity sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==
   
   optionator@^0.8.1:
     version "0.8.3"
@@ -6599,7 +6672,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
     integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
   
-  react-is@^16.13.0, react-is@^16.13.1:
+  react-is@^16.13.0, react-is@^16.13.1, react-is@^16.7.0:
     version "16.13.1"
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
     integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
@@ -6612,6 +6685,20 @@ Lockfile:
       flow-parser "^0.121.0"
       jscodeshift "^0.11.0"
       nullthrows "^1.1.1"
+  
+  react-native-iphone-x-helper@^1.3.1:
+    version "1.3.1"
+    resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
+    integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
+  
+  react-native-paper@^4.11.2:
+    version "4.11.2"
+    resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.11.2.tgz#4ae73282da9be3bf20760c609d3273643d1dd4a9"
+    integrity sha512-r+M5unY9Avez4we/RijVh4iy8gqxK93R4840aZmbakOJLIuxjfNh3B6SuoxBEbR6diuPRbKVeWHKju4mhltxWw==
+    dependencies:
+      "@callstack/react-theme-provider" "^3.0.7"
+      color "^3.1.2"
+      react-native-iphone-x-helper "^1.3.1"
   
   react-native-safe-area-context@3.3.2:
     version "3.3.2"
@@ -7117,6 +7204,15 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.2.0.tgz#66c9a24a73f9fc28cbe66b09fed3d33dcaf1b424"
     integrity sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==
   
+  shallow-clone@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/shallow-clone/-/shallow-clone-1.0.0.tgz#4480cd06e882ef68b2ad88a3ea54832e2c48b571"
+    integrity sha512-oeXreoKR/SyNJtRJMAKPDSvd28OqEwG4eR/xc856cRGBII7gX9lvAqDxusPm0846z/w/hWYjI1NpKwJ00NHzRA==
+    dependencies:
+      is-extendable "^0.1.1"
+      kind-of "^5.0.0"
+      mixin-object "^2.0.1"
+  
   shallow-clone@^3.0.0:
     version "3.0.1"
     resolved "https://registry.yarnpkg.com/shallow-clone/-/shallow-clone-3.0.1.tgz#8f2981ad92531f55035b01fb230769a40e02efa3"
@@ -7466,6 +7562,14 @@ Lockfile:
     version "9.2.1"
     resolved "https://registry.yarnpkg.com/sudo-prompt/-/sudo-prompt-9.2.1.tgz#77efb84309c9ca489527a4e749f287e6bdd52afd"
     integrity sha512-Mu7R0g4ig9TUuGSxJavny5Rv0egCEtpZRNMrZaYS1vxkiIxGiGUwoezU3LazIQ+KE04hTrTfNPgxU5gzi7F5Pw==
+  
+  superstruct@^0.6.2:
+    version "0.6.2"
+    resolved "https://registry.yarnpkg.com/superstruct/-/superstruct-0.6.2.tgz#c5eb034806a17ff98d036674169ef85e4c7f6a1c"
+    integrity sha512-lvA97MFAJng3rfjcafT/zGTSWm6Tbpk++DP6It4Qg7oNaeM+2tdJMuVgGje21/bIpBEs6iQql1PJH6dKTjl4Ig==
+    dependencies:
+      clone-deep "^2.0.1"
+      kind-of "^6.0.1"
   
   supports-color@^5.3.0:
     version "5.5.0"
