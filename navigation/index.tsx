@@ -3,22 +3,20 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
-
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import LoginScreen from '../screens/LoginScreen';
-import RegisterScreen from '../screens/RegisterScreen';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import TabThreeScreen from '../screens/TabThreeScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
-/*import LinkingConfiguration from './LinkingConfiguration';*/
+import { MaterialIcons } from '@expo/vector-icons'; 
+
+
+import GastoScreen from '../screens/GastoScreen';
+import AlimentScreen from '../screens/AlimentScreen';
+
 
 export default function Navigation(/*{ colorScheme } : {colorScheme : ColorSchemeName}*/) {
   return (  
@@ -38,10 +36,9 @@ export default function Navigation(/*{ colorScheme } : {colorScheme : ColorSchem
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>  
-      <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown:false ,}} />
-      <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown:false ,}} />
-      <Stack.Screen name="Bottom" component={BottomTabNavigator} options={{ headerShown:false ,}} />
+    <Stack.Navigator>
+      <Stack.Screen name="Bottom" component={BottomTabNavigator} options={{headerShown:false}} />
+      <Stack.Screen name = "GastoScreen" component={GastoScreen} options={{headerShown: false}}/>
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
       </Stack.Group>
     </Stack.Navigator>
@@ -55,43 +52,36 @@ function RootNavigator() {
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator({route}: RootTabScreenProps<'TabOne'>){
-  const {text} : any   = route.params 
+  const {text} : any   = /*route.params */ 'teste'
   const colorScheme = useColorScheme();
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="AlimentScreen"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
+
       <BottomTab.Screen
-        name="TabOne"
-        initialParams={{text}}
-        component={TabOneScreen}
-        options={({}: RootTabScreenProps<'TabOne'>) => ({
-          headerShown : false,
-          title: 'Home',
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-        })}
-      />
-      <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
-        options={{
-          headerShown : false,
-          title: 'User',
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
-        }}
-      />
-      <BottomTab.Screen
-        name="TabThree"
-        initialParams={{text}}
-        component={TabThreeScreen}
-        options={({}: RootTabScreenProps<'TabThree'>) => ({
+        name="AlimentScreen"
+        component={AlimentScreen}
+        options={({}: RootTabScreenProps<'AlimentScreen'>) => ({
         title: 'Market List',
         tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color}/>,
         headerShown:false,
         })}
       />
+      
+      <BottomTab.Screen
+        name="GastoScreen"
+        component={GastoScreen}
+        options={({}: RootTabScreenProps<'GastoScreen'>) => ({
+        title: 'Gastos Mensais',
+        tabBarIcon: ({ color }) => <MaterialIcons name="attach-money" size={24} color={color} />,
+        headerShown:false,
+        })}
+        initialParams={{index: 0}}
+      />
+
     </BottomTab.Navigator>
   );
 }
@@ -103,5 +93,25 @@ function BottomTabNavigator({route}: RootTabScreenProps<'TabOne'>){
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome5 size={30} style={{ marginBottom: -3 }} {...props} />;
 }
+
+/*<BottomTab.Screen
+name="TabOne"
+initialParams={{text}}
+component={TabOneScreen}
+options={({}: RootTabScreenProps<'TabOne'>) => ({
+  headerShown : false,
+  title: 'Home',
+  tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+})}
+/>
+<BottomTab.Screen
+name="TabTwo"
+component={TabTwoScreen}
+options={{
+  headerShown : false,
+  title: 'User',
+  tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+}}
+/>*/

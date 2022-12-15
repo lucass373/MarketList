@@ -19,10 +19,16 @@ export type RootStackParamList = {
   Bottom: undefined;
   Modal: undefined;
   NotFound: undefined;
+  AlimentScreen: undefined;
+  HortScreen : undefined;
   TabOneScreen: undefined ;
   RegisterScreen: undefined;
   LimpList:undefined;
-  TabThreeScreen1: undefined;
+  AlimentScreen1: undefined;
+  AcougScreen : undefined;
+  GastoScreen : undefined;
+  GastoScreen1 : undefined;
+  GastoScreen2 : undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -34,12 +40,17 @@ export type RootTabParamList = {
   TabOne: undefined;
   TabTwo: undefined;
   TabThree: undefined;
+  HortScreen : undefined;
+  AlimentScreen: undefined;
   RegisterScreen: undefined;
   LoginScreen: undefined;
   Bottom: undefined;
   LimpList: undefined;
-  TabThreeScreen1: undefined;
-
+  AlimentScreen1: undefined;
+  AcougScreen : undefined;
+  GastoScreen : undefined;
+  GastoScreen1 : undefined;
+  GastoScreen2 : undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
