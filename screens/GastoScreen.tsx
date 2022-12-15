@@ -17,7 +17,7 @@ import { RootStackParamList } from '../types'
 import { NavigationContainer } from '@react-navigation/native'
 import GastoScreen2 from './GastoScreen2'
 import { TextInput as TextInput1 } from 'react-native-paper'
-import { child, onValue, push, ref, set } from 'firebase/database'
+import { child, onValue, push, ref, remove, set } from 'firebase/database'
 import { db } from '../firebase/firebase'
 import { Entypo } from '@expo/vector-icons'
 import MaskInput, { Masks } from 'react-native-mask-input'
@@ -74,6 +74,7 @@ function GastoScreen1({ navigation, route }) {
   const [Valor, setValor] = useState('')
   const [local, setLocal] = useState('')
   const [items, setItems] = useState([])
+
   const [Val, setVal] = useState('')
   const [Loc, setLoc] = useState('')
   const [Quando, setQuando] = useState('')
@@ -96,23 +97,33 @@ function GastoScreen1({ navigation, route }) {
   }, [])
 
   //write
- //write
- const onPress = () => {
-  const newPostKey = push(child(ref(db), 'Market List/alimento')).key
-  const day = new Date().getDate()
-  const month = new Date().getMonth()
-  const year = new Date().getFullYear()
+  //write
+  const onPress = () => {
+    const newPostKey = push(child(ref(db), 'Market List/alimento')).key
+    const day = new Date().getDate()
+    const month = new Date().getMonth()
+    const year = new Date().getFullYear()
 
-  set(ref(db, `Gastos/${meses[index]}/${newPostKey}`), {
-    day: day,
-    month:month,
-    year: year,
-    value: Valor,
-    place: local
-  })
-  setValor('')
-  setLocal('')
-}
+    set(ref(db, `Gastos/${meses[index]}/${newPostKey}`), {
+      day: day,
+      month: month,
+      year: year,
+      value: Valor.replace('R$ ', '').replace(',', '.'),
+      place: local,
+      uuid: newPostKey
+    })
+    setValor('')
+    setLocal('')
+  }
+  //remover
+  const remover = (id: string) => {
+    remove(ref(db, `Gastos/${meses[index]}/${id}`))
+  }
+  //total
+  var total = items.reduce(getTotal, 0)
+  function getTotal(total, item) {
+    return parseFloat(total) + parseFloat(item.value)
+  }
 
   function ItemComponent({ items }) {
     return (
@@ -126,38 +137,82 @@ function GastoScreen1({ navigation, route }) {
                 borderRadius: 10,
                 width: 350,
                 borderColor: '#612F74',
-                alignItems: 'flex-start',
-                marginBottom: 5
+                marginBottom: 5,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexDirection: 'row'
               }}
             >
-              <View style={{ flexDirection: 'row' }}>
-                <Text
-                  style={{ marginLeft: 10,fontWeight: 'bold', fontSize: 20, color: '#612F74' }}
-                >
-                  Valor:{' '}
-                </Text>
-                <MaskInput style={{ fontWeight: 'bold', fontSize: 20, color: '#612F74' }} value={items.value} mask={Masks.BRL_CURRENCY}/>
+              <View>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text
+                    style={{
+                      marginLeft: 10,
+                      fontWeight: 'bold',
+                      fontSize: 20,
+                      color: '#612F74'
+                    }}
+                  >
+                    Valor:{' '}
+                  </Text>
+                  <MaskInput
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: 20,
+                      color: '#612F74'
+                    }}
+                    value={items.value}
+                    mask={Masks.BRL_CURRENCY}
+                  />
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text
+                    style={{
+                      marginLeft: 10,
+                      fontWeight: 'bold',
+                      fontSize: 20,
+                      color: '#612F74'
+                    }}
+                  >
+                    Local:{' '}
+                  </Text>
+                  <TextInput
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: 20,
+                      color: '#612F74'
+                    }}
+                    value={items.place}
+                  />
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text
+                    style={{
+                      marginLeft: 10,
+                      fontWeight: 'bold',
+                      fontSize: 20,
+                      color: '#612F74'
+                    }}
+                  >
+                    Dia:{' '}
+                  </Text>
+                  <MaskInput
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: 20,
+                      color: '#612F74'
+                    }}
+                    value={`${items.day}${items.month}${items.year}`}
+                    mask={Masks.DATE_DDMMYYYY}
+                  />
+                </View>
               </View>
-              <View style={{ flexDirection: 'row' }}>
-                <Text
-                  style={{marginLeft: 10, fontWeight: 'bold', fontSize: 20, color: '#612F74' }}
-                >
-                  Local:{' '}
-                </Text>
-                <TextInput style={{ fontWeight: 'bold', fontSize: 20, color: '#612F74' }} value={items.place} />
-              </View>
-              <View style={{ flexDirection: 'row' }}>
-                <Text
-                  style={{marginLeft: 10, fontWeight: 'bold', fontSize: 20, color: '#612F74' }}
-                >
-                  Dia:{' '}
-                </Text>
-                <MaskInput              
-                  style={{ fontWeight: 'bold', fontSize: 20, color: '#612F74' }}
-                  value={`${items.day}${items.month}${items.year}`}
-                  mask={Masks.DATE_DDMMYYYY}
-                />
-              </View>
+              <TouchableOpacity
+                onPress={() => remover(items.uuid)}
+                style={{ right: 10 }}
+              >
+                <Entypo name="trash" color="red" size={30} />
+              </TouchableOpacity>
             </View>
           )
         })}
@@ -168,7 +223,7 @@ function GastoScreen1({ navigation, route }) {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>
-        Gastos de {meses[index]} Total: R$(valor)
+        {meses[index]} Total: R${total.toFixed(2)}
       </Text>
       <View style={{ justifyContent: 'flex-end', flex: 1 }}>
         <View style={{ flex: 1 }}>
@@ -206,16 +261,6 @@ function GastoScreen1({ navigation, route }) {
                   onChangeText={setValor}
                   value={Valor}
                 />
-                <Text
-                  style={{
-                    marginLeft: 15,
-                    bottom: 5,
-                    color: '#612F74',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  Total: R$(valor)
-                </Text>
               </MotiView>
             ) : (
               <>
@@ -227,28 +272,26 @@ function GastoScreen1({ navigation, route }) {
                       justifyContent: 'center'
                     }}
                     from={{ translateX: 0 }}
-                    animate={{ translateX: -220 }}
+                    animate={{ translateX: -260 }}
                     transition={{
                       delay: 0
                     }}
                   >
-                    <TextInput1
+                    <MaskInput
                       maxLength={20}
-                      label="Valor(R$)"
+                      mask={Masks.BRL_CURRENCY}
                       style={[styles.valImp, { width: 100 }]}
-                      mode="outlined"
+                      keyboardType="numeric"
                       placeholder='Ex. "10.00"'
                       onChangeText={setValor}
                       value={Valor}
                     />
-                    <TextInput1
+                    <MaskInput
                       maxLength={20}
-                      label="local"
                       style={[styles.valImp]}
-                      mode="outlined"
                       placeholder="Ex.Mercado"
                       onChangeText={setLocal}
-                      value={Valor}
+                      value={local}
                     />
                   </MotiView>
                 ) : (
@@ -264,20 +307,18 @@ function GastoScreen1({ navigation, route }) {
                       delay: 0
                     }}
                   >
-                    <TextInput1
+                    <MaskInput
                       maxLength={20}
-                      label="Valor(R$)"
+                      mask={Masks.BRL_CURRENCY}
                       style={[styles.valImp, { width: 100 }]}
-                      mode="outlined"
+                      keyboardType="numeric"
                       placeholder='Ex. "10.00"'
                       onChangeText={setValor}
                       value={Valor}
                     />
-                    <TextInput1
+                    <MaskInput
                       maxLength={20}
-                      label="local"
                       style={[styles.valImp]}
-                      mode="outlined"
                       placeholder="Ex.Mercado"
                       onChangeText={setLocal}
                       value={local}
@@ -292,7 +333,9 @@ function GastoScreen1({ navigation, route }) {
               onPress={() => [
                 setVisible(!Visible),
                 setFlag(1),
-                Visible == true ? onPress() : null
+                (Visible == true && Valor != '') || local != ''
+                  ? onPress()
+                  : null
               ]}
               style={styles.fab}
               icon={
@@ -336,6 +379,7 @@ const styles = StyleSheet.create({
     borderColor: '#612F74',
     fontSize: 15,
     right: -10,
+    marginLeft: 15,
     bottom: 5,
     height: 35
   },
