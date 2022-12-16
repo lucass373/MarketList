@@ -13,9 +13,10 @@ import {
 } from 'firebase/database'
 import { CheckBox } from 'react-native-elements'
 import { db } from '../firebase/firebase'
-import { Entypo,MaterialCommunityIcons } from '@expo/vector-icons'
+import { Entypo,Fontisto,MaterialCommunityIcons } from '@expo/vector-icons'
 import {RootTabScreenProps } from '../types'
 import { FloatingAction } from "react-native-floating-action";
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 
 
@@ -27,31 +28,32 @@ export default function LimpList({ navigation }: RootTabScreenProps<'LimpList'>)
   const actions = [
     {
       text: "Alimento",
-      icon: <MaterialCommunityIcons name="rice" size={24} color="white" />,
+      icon: <MaterialCommunityIcons name="rice" size={24} color="#004D40" />,
       name: "AlimentScreen1",
       position: 1,
-      color:'#612F74'
+      color:'#00BFA5'
+
     },
     {
-      text: "Carne",
-      icon: <MaterialCommunityIcons name="cow" size={24} color="white" />,
-      name: "teste2",
+      text: "Açougue",
+      icon: <MaterialCommunityIcons name="cow" size={24} color="#004D40" />,
+      name: "AcougScreen",
       position: 2,
-      color:'#612F74'
+      color:'#00BFA5'
     },
     {
       text: "Hortifruti",
-      icon: <MaterialCommunityIcons name="fruit-grapes-outline" size={24} color="white" />,
+      icon: <MaterialCommunityIcons name="fruit-grapes-outline" size={24} color="#004D40" />,
       name: "HortScreen",
       position: 3,
-      color:'#612F74'
+      color:'#00BFA5'
     },
     {
       text: "Limpeza",
-      icon: <MaterialCommunityIcons name="spray-bottle" size={24} color="white" />,
+      icon: <MaterialCommunityIcons name="spray-bottle" size={24} color="#004D40" />,
       name: "LimpList",
       position: 4,
-      color:'blue'
+      color:'#A7FFEB'
     }
   ];
 
@@ -97,63 +99,75 @@ export default function LimpList({ navigation }: RootTabScreenProps<'LimpList'>)
 
   function ItemComponent({ items }) {
     items = items.sort(function(x,y){
-      let a = x.item.toUpperCase(),
-          b = y.item.toUpperCase();
-      return  a == b ? 0 : a > b ? 1 : -1
-    })
-    return (
-      <View style={styles.container}>
-        {items.map((items: any, index: string) => {
-          return (
-            <View key={index} style={styles.item}>
-              <CheckBox
-                checkedColor="green"
-                checked={items.checked}
-                onPress={() => changeCheck(items.uuid, !items.checked)}
-              />
-              <Text style={[styles.title,items.checked == true?({textDecorationLine:'line-through'}):(null)]}>
-                {items.item} ||| {items.quantidade}
-              </Text>
-              <Entypo.Button
-                name="trash"
-                color={'red'}
-                backgroundColor={''}
-                underlayColor={''}
-                onPress={() => remover(items.uuid)}
-              />
-            </View>
-          )
-        })}
-      </View>
-    )
-  }
+     let a = x.item.toUpperCase(),
+         b = y.item.toUpperCase();
+     return  a == b ? 0 : a > b ? 1 : -1
+   })
+   return (
+     <View style={styles.container}>
+       {items.map((items: any, index: string) => {
+         return (
+          
+           <View key={index} style={styles.item}>
+             <CheckBox
+               uncheckedColor='#64FFDA'
+               checkedColor="#64FFDA"
+               checked={items.checked}
+               onPress={() => changeCheck(items.uuid, !items.checked)}
+             />
+             <Text style={[styles.title,items.checked == true?({textDecorationLine:'line-through'}):(null)]}>
+               {items.item} ||| {items.quantidade}
+             </Text>
+             <Entypo.Button
+               name="trash"
+               color={'#00BFA5'}
+               backgroundColor={''}
+               underlayColor={''}
+               onPress={() => remover(items.uuid)}
+             />
+           </View>
+         )
+       })}
+     </View>
+   )
+ }
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.inpCont}>
         <TextInput
+          selectionColor='#00695C'
+          outlineColor='#64FFDA'
+          activeOutlineColor='#64FFDA'
+          placeholderTextColor={'#4DB6AC'}
+          textColor='#B2DFDB'
           maxLength={20}
-          label="Item"
+          label={<Text style={{color: '#4DB6AC'}}>Item</Text>}
           style={styles.Input1}
           mode="outlined"
           placeholder='Ex. "Arroz"'
-          onChangeText={(List) => setList(List)}
+          onChangeText={setList}
           value={List}
         />
         <TextInput
+          selectionColor='#00695C'
+         outlineColor='#64FFDA'
+           activeOutlineColor='#64FFDA'
+          placeholderTextColor={'#4DB6AC'}
+          textColor='#B2DFDB'
+          label={<Text style={{color: '#4DB6AC'}}>Quantidade</Text>}
           maxLength={3}
           keyboardType="numeric"
-          label="Quantidade"
           style={styles.Input2}
           mode="outlined"
           placeholder='Ex. "10"'
-          onChangeText={(Quant) => setQuant(Quant)}
+          onChangeText={setQuant}
           value={Quant}
         />
       </View>
 
       <View style={styles.line}></View>
-      <Text style={styles.title}>Lista Alimentos</Text>
-      <ScrollView style={styles.itemView}>
+      <Text style={styles.title}>Lista Limpeza</Text>
+      <ScrollView  style={styles.itemView}>
         {items.length > 0 ? (
           <ItemComponent items={items} />
         ) : (
@@ -162,7 +176,7 @@ export default function LimpList({ navigation }: RootTabScreenProps<'LimpList'>)
       </ScrollView>
       <View
         style={{
-          borderTopColor: '#612F74',
+          borderTopColor: '#B2DFDB',
           borderTopWidth: 2,
           width: '100%',
           height: 40,
@@ -170,32 +184,34 @@ export default function LimpList({ navigation }: RootTabScreenProps<'LimpList'>)
       >
         <Text style={styles.title}>Total de itens: {items.length}</Text>
       </View>
-      <FAB style={styles.fab} icon="pencil" onPress={onPress} />
+      <FAB style={styles.fab} color={'#004D40'} icon="pencil" onPress={onPress} />
       <View style={styles.fab2}>
-      <FloatingAction       
+      <FloatingAction    
+        floatingIcon={<Fontisto  name='arrow-up' size={20} color={'#004D40'}/>} 
         position='left'
-        color='#612F74'
+        color='#64FFDA'
         actions={actions}
-        onPressItem={name => navigation.navigate(name)}
+        onPressItem={(name) =>navigation.navigate(name)}
   />
   </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
+
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
     flex: 1,
     flexWrap: 'wrap',
     //alignItems: 'center',
     alignContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#004D40'
   },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#612F74',
+    color: '#B2DFDB',
     textAlign: 'center',
   },
   separator: {
@@ -209,7 +225,8 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: -21,
     color: 'blue',
-    backgroundColor: '#612F74',
+    borderRadius: 30,
+    backgroundColor: '#64FFDA',
   },
   fab2: {
     position: 'absolute',
@@ -217,19 +234,27 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: -27,
     color: 'blue',
-    backgroundColor: '#612F74',
+    backgroundColor: '#64FFDA',
   },
   Input1: {
     width: '68%',
+    backgroundColor:'#00695C',
+    color: '#4DB6AC',
+    tintColor: '#4DB6AC',
+    textDecorationColor: '#4DB6AC'
   },
   Input2: {
     width: '30%',
+    backgroundColor:'#00695C',
+    color: '#4DB6AC',
+    tintColor: '#4DB6AC',
+    textDecorationColor: '#4DB6AC'
   },
   line: {
     marginTop: 10,
     width: '100%',
     height: 3,
-    backgroundColor: '#612F74',
+    backgroundColor: '#B2DFDB',
   },
   inpCont: {
     flexDirection: 'row',
@@ -243,9 +268,11 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 10,
     marginBottom: 5,
+    backgroundColor: '#004D40'
   },
   item: {
-    borderColor: '#612F74',
+    borderColor: '#64FFDA',
+    backgroundColor:'#00695C',
     borderWidth: 2,
     width: '98%',
     alignItems: 'center',

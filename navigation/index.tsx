@@ -58,7 +58,12 @@ function BottomTabNavigator({route}: RootTabScreenProps<'TabOne'>){
     <BottomTab.Navigator
       initialRouteName="AlimentScreen"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarActiveTintColor: '#E0F2F1',
+        tabBarInactiveTintColor: '#4DB6AC',
+        tabBarStyle:{
+          borderColor: '',
+          backgroundColor: '#004D40',
+        }
       }}>
 
       <BottomTab.Screen

@@ -68,7 +68,7 @@ export default function GastoScreen2({ navigation, route }) {
       day: day,
       month: month,
       year: year,
-      value: Valor.replace('R$ ', '').replace(',', '.'),
+      value: Valor.replace('.','').replace('R$ ', '').replace(',', '.'),
       place: local,
       uuid: newPostKey
     })
@@ -97,7 +97,7 @@ export default function GastoScreen2({ navigation, route }) {
                 borderWidth: 1.5,
                 borderRadius: 10,
                 width: 350,
-                borderColor: '#612F74',
+                borderColor: '#64FFDA',
                 marginBottom: 5,
                 justifyContent: 'space-between',
                 alignItems: 'center',
@@ -111,7 +111,7 @@ export default function GastoScreen2({ navigation, route }) {
                       marginLeft: 10,
                       fontWeight: 'bold',
                       fontSize: 20,
-                      color: '#612F74'
+                      color: '#64FFDA'
                     }}
                   >
                     Valor:{' '}
@@ -120,7 +120,7 @@ export default function GastoScreen2({ navigation, route }) {
                     style={{
                       fontWeight: 'bold',
                       fontSize: 20,
-                      color: '#612F74'
+                      color: '#64FFDA'
                     }}
                     value={items.value}
                     mask={Masks.BRL_CURRENCY}
@@ -132,7 +132,7 @@ export default function GastoScreen2({ navigation, route }) {
                       marginLeft: 10,
                       fontWeight: 'bold',
                       fontSize: 20,
-                      color: '#612F74'
+                      color: '#64FFDA'
                     }}
                   >
                     Local:{' '}
@@ -141,7 +141,7 @@ export default function GastoScreen2({ navigation, route }) {
                     style={{
                       fontWeight: 'bold',
                       fontSize: 20,
-                      color: '#612F74'
+                      color: '#64FFDA'
                     }}
                     value={items.place}
                   />
@@ -152,7 +152,7 @@ export default function GastoScreen2({ navigation, route }) {
                       marginLeft: 10,
                       fontWeight: 'bold',
                       fontSize: 20,
-                      color: '#612F74'
+                      color: '#64FFDA'
                     }}
                   >
                     Dia:{' '}
@@ -161,7 +161,7 @@ export default function GastoScreen2({ navigation, route }) {
                     style={{
                       fontWeight: 'bold',
                       fontSize: 20,
-                      color: '#612F74'
+                      color: '#64FFDA'
                     }}
                     value={`${items.day}${items.month}${items.year}`}
                     mask={Masks.DATE_DDMMYYYY}
@@ -172,7 +172,7 @@ export default function GastoScreen2({ navigation, route }) {
                 onPress={() => remover(items.uuid)}
                 style={{ right: 10 }}
               >
-                <Entypo name="trash" color="red" size={30} />
+                <Entypo name="trash" color="#64FFDA" size={30} />
               </TouchableOpacity>
             </View>
           )
@@ -242,13 +242,13 @@ export default function GastoScreen2({ navigation, route }) {
                       maxLength={20}
                       mask={Masks.BRL_CURRENCY}
                       style={[styles.valImp, { width: 100 }]}
+                      keyboardType="numeric"
                       placeholder='Ex. "10.00"'
                       onChangeText={setValor}
                       value={Valor}
                     />
                     <MaskInput
                       maxLength={20}
-                      keyboardType="numeric"
                       style={[styles.valImp]}
                       placeholder="Ex.Mercado"
                       onChangeText={setLocal}
@@ -272,13 +272,13 @@ export default function GastoScreen2({ navigation, route }) {
                       maxLength={20}
                       mask={Masks.BRL_CURRENCY}
                       style={[styles.valImp, { width: 100 }]}
+                      keyboardType="numeric"
                       placeholder='Ex. "10.00"'
                       onChangeText={setValor}
                       value={Valor}
                     />
                     <MaskInput
                       maxLength={20}
-                      keyboardType="numeric"
                       style={[styles.valImp]}
                       placeholder="Ex.Mercado"
                       onChangeText={setLocal}
@@ -321,7 +321,7 @@ export default function GastoScreen2({ navigation, route }) {
             {meses.map((items: any, index: number) => {
               return (
                 <View key={Date.now()} style={styles.barraMes}>
-                  <Text style={[styles.title, { color: 'white' }]}>
+                  <Text style={[styles.title, { color: '#004D40' }]}>
                     {items}
                   </Text>
                 </View>
@@ -337,7 +337,7 @@ export default function GastoScreen2({ navigation, route }) {
 const styles = StyleSheet.create({
   valImp: {
     width: 115,
-    borderColor: '#612F74',
+    borderColor: '#64FFDA',
     fontSize: 15,
     right: -10,
     marginLeft: 15,
@@ -351,20 +351,21 @@ const styles = StyleSheet.create({
     margin: 0,
     right: 0,
     bottom: 0,
-    color: 'blue'
+    color: 'blue',
+    backgroundColor: '#004D40'
   },
   container2: {
     textAlign: 'center',
     justifyContent: 'flex-end',
     height: 40,
-    backgroundColor: '#612F74',
+    backgroundColor: '#64FFDA',
     alignItems: 'center'
   },
   barraMes: {
     textAlign: 'center',
     justifyContent: 'center',
     height: 40,
-    backgroundColor: '#612F74',
+    backgroundColor: '#64FFDA',
     alignItems: 'center'
   },
   title: {
@@ -372,7 +373,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     justifyContent: 'center',
     alignItems: 'center',
-    color: '#612F74'
+    color: '#64FFDA'
   },
   fab: {
     position: 'absolute',
@@ -380,7 +381,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: -15,
     color: 'blue',
-    backgroundColor: '#612F74'
+    backgroundColor: '#64FFDA'
   },
   itemView: {
     flex: 1,
